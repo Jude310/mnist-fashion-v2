@@ -18,6 +18,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import tree
 # import random forests
 from sklearn.ensemble import RandomForestClassifier
+# import MLP 
+from sklearn.neural_network import MLPClassifier
 
 # Define the Streamlit app
 def app():
@@ -28,7 +30,7 @@ def app():
     clf = KNeighborsClassifier(n_neighbors=5)
     selected_model = 0
 # add Logistic Regression, Decision Trees, Random Forest
-    options = ['K Nearest Neighbor', 'Support Vector Machine', 'Naive Bayes', 'Logistic Regression', 'Decision Tree', 'Random Forest']
+    options = ['K Nearest Neighbor', 'Support Vector Machine', 'Naive Bayes', 'Logistic Regression', 'Decision Tree', 'Random Forest', 'MLP']
     selected_option = st.sidebar.selectbox('Select the classifier', options)
     if selected_option =='Support Vector Machine':
         clf = SVC(kernel='linear')
@@ -49,9 +51,13 @@ def app():
     elif selected_option=="Decision Tree":
         clf = tree.DecisionTreeClassifier()
         selected_model = 4
-    else:
+    elif selected_option=="Random Forest":
         clf = RandomForestClassifier(n_jobs=2, random_state=0)
         selected_model = 5
+    else:
+        clf = MLPClassifier(solver='lbfgs', alpha=0.01, hidden_layer_sizes=(100,), random_state=42)
+        selected_model = 6
+        
     
 
     if st.button("Begin Test"):
@@ -106,9 +112,13 @@ def app():
             report = """
             Input the description of Decision Trees
             """
-        elif selected model == 5:
+        elif selected_model == 5:
             report == """
             Input the description of Random Forests
+            """
+        else:
+            report == """
+            Input the description for MLP
             """
 
         st.subheader('Performance of the ' + classifier)
