@@ -12,6 +12,12 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
+# import logistic regression
+from sklearn.linear_model import LogisticRegression
+# import decision trees
+from sklearn import tree
+# import random forests
+from sklearn.ensemble import RandomForestClassifier
 
 # Define the Streamlit app
 def app():
@@ -21,8 +27,8 @@ def app():
     # Create the selecton of classifier
     clf = KNeighborsClassifier(n_neighbors=5)
     selected_model = 0
-
-    options = ['K Nearest Neighbor', 'Support Vector Machine', 'Naive Bayes']
+# add Logistic Regression, Decision Trees, Random Forest
+    options = ['K Nearest Neighbor', 'Support Vector Machine', 'Naive Bayes', 'Logistic Regression', 'Decision Tree', 'Random Forest']
     selected_option = st.sidebar.selectbox('Select the classifier', options)
     if selected_option =='Support Vector Machine':
         clf = SVC(kernel='linear')
@@ -30,9 +36,23 @@ def app():
     elif selected_option=='Naive Bayes':        
         clf = GaussianNB()
         selected_model = 2
-    else:
+    elif selected_option=="K Nearest Neigbor":
         clf = KNeighborsClassifier(n_neighbors=5)
         selected_model = 0
+    elif selected_option=="Logistic Regression":
+        clf = LogisticRegression(C=1.0, class_weight=None, 
+            dual=False, fit_intercept=True,
+            intercept_scaling=1, max_iter=100, multi_class='auto',
+            n_jobs=1, penalty='l2', random_state=42, solver='lbfgs',
+            tol=0.0001, verbose=0, warm_start=False)
+        selected_model = 3
+    elif selected_option=="Decision Tree":
+        clf = tree.DecisionTreeClassifier()
+        selected_model = 4
+    else:
+        clf = RandomForestClassifier(n_jobs=2, random_state=0)
+        selected_model = 5
+    
 
     if st.button("Begin Test"):
 
@@ -71,13 +91,25 @@ def app():
             hyperparameter tuning and may be surpassed by other models like convolutional 
             neural networks (CNNs) specifically designed for image recognition tasks."""
             classifier = 'Support Vector Machine'
-        else:        
+        elif selected_model == 2:        
             report = """Naive Bayes achieves decent accuracy on the Fashion MNIST dataset, 
             likely around 70-80%, due to its simplicity and efficiency. However, more complex 
             models like convolutional neural networks can achieve significantly higher 
             accuracy due to their ability to capture the intricate patterns in the 
             clothing images."""
             classifier = "Naive Bayes"
+        elif selected_model == 3:
+            report = """
+            Input the description of Logistic Regression
+            """
+        elif selected_model == 4:
+            report = """
+            Input the description of Decision Trees
+            """
+        elif selected model == 5:
+            report == """
+            Input the description of Random Forests
+            """
 
         st.subheader('Performance of the ' + classifier)
 
