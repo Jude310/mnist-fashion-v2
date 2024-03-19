@@ -113,11 +113,11 @@ def app():
             Input the description of Decision Trees
             """
         elif selected_model == 5:
-            report == """
+            report = """
             Input the description of Random Forests
             """
         else:
-            report == """
+            report = """
             Input the description for MLP
             """
 
