@@ -44,7 +44,7 @@ def app():
     X, y = fetch_openml('Fashion-MNIST', version=1, return_X_y=True)
     
     # Extract only the specified number of images and labels
-    size = 3000
+    size = 30000
     X = X[:size]
     y = y[:size]
 
